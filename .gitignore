@@ -1,0 +1,5 @@
+.vscode
+*.txt
+__pycache__
+bin
+*.so

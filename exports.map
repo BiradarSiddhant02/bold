@@ -1,0 +1,17 @@
+{
+    global:
+        euclidean_distance_f64;
+        euclidean_distance_f32;
+        batched_euclidean_f64;
+        batched_euclidean_f32;
+        centroid_f64;
+        centroid_f32;
+        manhattan_distance_f64;
+        manhattan_distance_f32;
+        batched_manhattan_f64;
+        batched_manhattan_f32;
+        vecop_print_arch;
+        vecop_set_arch;
+    local:
+        *;
+};
