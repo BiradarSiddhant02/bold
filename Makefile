@@ -1,6 +1,7 @@
 # === Compiler and Flags ===
 CC := gcc
 COMMON_CFLAGS := -O3 -Wall -Wextra -std=c11 -Iinclude -fPIC -fopenmp -funroll-loops
+DEBUG_CFLAGS := -g -O0 -Wall -Wextra -std=c11 -Iinclude -fPIC -fopenmp
 SO_FLAGS := -shared -fPIC -fopenmp
 LDFLAGS := -lm -Wl,--version-script=exports.map
 
@@ -59,9 +60,20 @@ $(BIN_DIR)/dispatcher.o: $(SRC_DIR)/dispatcher.c
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(COMMON_CFLAGS) -c $< -o $@
 
-# === Link all object files into shared object ===
+# === Output Static Library ===
+STATIC_LIB := $(BIN_DIR)/libvecops.a
+
+# === Default Target (build both) ===
+all: $(SHARED_LIB) $(STATIC_LIB)
+
+# === Shared Object (.so)
 $(SHARED_LIB): $(OBJS)
 	$(CC) $(SO_FLAGS) -o $@ $^ $(LDFLAGS)
+
+# === Static Archive (.a)
+$(STATIC_LIB): CFLAGS := $(DEBUG_CFLAGS)
+$(STATIC_LIB): $(OBJS)
+	ar rcs $@ $^
 
 # === Clean ===
 clean:
