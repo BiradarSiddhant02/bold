@@ -136,7 +136,7 @@ double euclidean_distance_f64(const double* a, const double* b, size_t len) {
 
     // Scalar fallback
     double dist = 0.0;
-    for (size_t i = 0; i < len; ++i) {
+    for (register size_t i = 0; i < len; ++i) {
         double d = a[i] - b[i];
         dist += d * d;
     }
@@ -150,7 +150,7 @@ float euclidean_distance_f32(const float* a, const float* b, size_t len) {
 
     // Scalar fallback
     float dist = 0.0f;
-    for (size_t i = 0; i < len; ++i) {
+    for (register size_t i = 0; i < len; ++i) {
         float d = a[i] - b[i];
         dist += d * d;
     }
@@ -164,7 +164,7 @@ double* batched_euclidean_f64(const double** vecs, const double* vec, size_t n, 
 
     // Scalar fallback
     double* out = malloc(sizeof(double) * n);
-    for (size_t i = 0; i < n; ++i)
+    for (register size_t i = 0; i < n; ++i)
         out[i] = euclidean_distance_f64(vecs[i], vec, len);
     return out;
 }
@@ -176,7 +176,7 @@ float* batched_euclidean_f32(const float** vecs, const float* vec, size_t n, siz
 
     // Scalar fallback
     float* out = malloc(sizeof(float) * n);
-    for (size_t i = 0; i < n; ++i)
+    for (register size_t i = 0; i < n; ++i)
         out[i] = euclidean_distance_f32(vecs[i], vec, len);
     return out;
 }
@@ -188,7 +188,7 @@ double* centroid_f64(const double** vecs, size_t n, size_t len) {
 
     // Scalar fallback
     double* c = calloc(len, sizeof(double));
-    for (size_t i = 0; i < n; ++i)
+    for (register size_t i = 0; i < n; ++i)
         for (size_t j = 0; j < len; ++j)
             c[j] += vecs[i][j];
     for (size_t j = 0; j < len; ++j)
@@ -203,7 +203,7 @@ float* centroid_f32(const float** vecs, size_t n, size_t len) {
 
     // Scalar fallback
     float* c = calloc(len, sizeof(float));
-    for (size_t i = 0; i < n; ++i)
+    for (register size_t i = 0; i < n; ++i)
         for (size_t j = 0; j < len; ++j)
             c[j] += vecs[i][j];
     for (size_t j = 0; j < len; ++j)
@@ -218,7 +218,7 @@ double manhattan_distance_f64(const double* a, const double* b, size_t len) {
 
     // Scalar fallback
     double dist = 0.0;
-    for (size_t i = 0; i < len; ++i) {
+    for (register size_t i = 0; i < len; ++i) {
         dist += fabs(a[i] - b[i]);
     }
     return dist;
@@ -231,7 +231,7 @@ float manhattan_distance_f32(const float* a, const float* b, size_t len) {
 
     // Scalar fallback
     float dist = 0.0f;
-    for (size_t i = 0; i < len; ++i) {
+    for (register size_t i = 0; i < len; ++i) {
         dist += fabsf(a[i] - b[i]);
     }
     return dist;
@@ -244,7 +244,7 @@ double* batched_manhattan_f64(const double** vecs, const double* vec, size_t n, 
 
     // Scalar fallback
     double* out = malloc(sizeof(double) * n);
-    for (size_t i = 0; i < n; ++i)
+    for (register size_t i = 0; i < n; ++i)
         out[i] = manhattan_distance_f64(vecs[i], vec, len);
     return out;
 }
@@ -256,7 +256,7 @@ float* batched_manhattan_f32(const float** vecs, const float* vec, size_t n, siz
 
     // Scalar fallback
     float* out = malloc(sizeof(float) * n);
-    for (size_t i = 0; i < n; ++i)
+    for (register size_t i = 0; i < n; ++i)
         out[i] = manhattan_distance_f32(vecs[i], vec, len);
     return out;
 }

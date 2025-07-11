@@ -2,8 +2,8 @@
 
 __attribute__((target("avx512f")))
 double euclidean_distance_f64_avx512(const double* vec_a, const double* vec_b, const size_t length) {
-    __m512d sum = _mm512_setzero_pd();
-    size_t i = 0;
+    register __m512d sum = _mm512_setzero_pd();
+    register size_t i = 0;
 
     for (; i + 8 <= length; i += 8) {
         __m512d va = _mm512_loadu_pd(vec_a + i);
@@ -28,8 +28,8 @@ double euclidean_distance_f64_avx512(const double* vec_a, const double* vec_b, c
 
 __attribute__((target("avx512f")))
 float euclidean_distance_f32_avx512(const float* vec_a, const float* vec_b, const size_t length) {
-    __m512 sum = _mm512_setzero_ps();
-    size_t i = 0;
+    register __m512 sum = _mm512_setzero_ps();
+    register size_t i = 0;
 
     for (; i + 16 <= length; i += 16) {
         __m512 va = _mm512_loadu_ps(vec_a + i);
@@ -59,7 +59,7 @@ double* batched_euclidean_f64_avx512(const double** vecs, const double* vec, con
 #pragma omp parallel
     {
 #pragma omp for nowait
-        for (size_t i = 0; i < n_vectors; i++) {
+        for (register size_t i = 0; i < n_vectors; i++) {
             distances[i] = euclidean_distance_f64_avx512(vecs[i], vec, length);
         }
     }
@@ -74,7 +74,7 @@ float* batched_euclidean_f32_avx512(const float** vecs, const float* vec, const 
 #pragma omp parallel
     {
 #pragma omp for nowait
-        for (size_t i = 0; i < n_vectors; i++) {
+        for (register size_t i = 0; i < n_vectors; i++) {
             distances[i] = euclidean_distance_f32_avx512(vecs[i], vec, length);
         }
     }
@@ -85,12 +85,12 @@ float* batched_euclidean_f32_avx512(const float** vecs, const float* vec, const 
 __attribute__((target("avx512f")))
 double* centroid_f64_avx512(const double** vecs, const size_t n_vectors, const size_t length) {
     double* centroid = (double*)malloc(sizeof(double) * length);
-    for (size_t k = 0; k < length; k++) centroid[k] = 0.0;
+    for (register size_t k = 0; k < length; k++) centroid[k] = 0.0;
 
-    size_t i, j;
+    register size_t i, j;
 
     for (j = 0; j + 8 <= length; j += 8) {
-        __m512d sum = _mm512_setzero_pd();
+        register __m512d sum = _mm512_setzero_pd();
 
         for (i = 0; i < n_vectors; i++) {
             __m512d v = _mm512_loadu_pd(&vecs[i][j]);
@@ -115,12 +115,12 @@ double* centroid_f64_avx512(const double** vecs, const size_t n_vectors, const s
 __attribute__((target("avx512f")))
 float* centroid_f32_avx512(const float** vecs, const size_t n_vectors, const size_t length) {
     float* centroid = (float*)malloc(sizeof(float) * length);
-    for (size_t k = 0; k < length; k++) centroid[k] = 0.0f;
+    for (register size_t k = 0; k < length; k++) centroid[k] = 0.0f;
 
-    size_t i, j;
+    register size_t i, j;
 
     for (j = 0; j + 16 <= length; j += 16) {
-        __m512 sum = _mm512_setzero_ps();
+        register __m512 sum = _mm512_setzero_ps();
 
         for (i = 0; i < n_vectors; i++) {
             __m512 v = _mm512_loadu_ps(&vecs[i][j]);
@@ -144,8 +144,8 @@ float* centroid_f32_avx512(const float** vecs, const size_t n_vectors, const siz
 
 __attribute__((target("avx512f,avx512dq")))
 double manhattan_distance_f64_avx512(const double* vec_a, const double* vec_b, const size_t length) {
-    __m512d sum = _mm512_setzero_pd();
-    size_t i = 0;
+    register __m512d sum = _mm512_setzero_pd();
+    register size_t i = 0;
 
     // Mask to clear sign bit: 0x7FFFFFFFFFFFFFFF
     const __m512d sign_mask = _mm512_castsi512_pd(_mm512_set1_epi64(0x7FFFFFFFFFFFFFFF));
@@ -176,8 +176,8 @@ double manhattan_distance_f64_avx512(const double* vec_a, const double* vec_b, c
 
 __attribute__((target("avx512f,avx512dq")))
 float manhattan_distance_f32_avx512(const float* vec_a, const float* vec_b, const size_t length) {
-    __m512 sum = _mm512_setzero_ps();
-    size_t i = 0;
+    register __m512 sum = _mm512_setzero_ps();
+    register size_t i = 0;
 
     // Mask to clear sign bit: 0x7FFFFFFF
     const __m512 sign_mask = _mm512_castsi512_ps(_mm512_set1_epi32(0x7FFFFFFF));
@@ -213,7 +213,7 @@ double* batched_manhattan_f64_avx512(const double** vecs, const double* vec, con
 #pragma omp parallel
     {
 #pragma omp for nowait
-        for (size_t i = 0; i < n_vectors; i++) {
+        for (register size_t i = 0; i < n_vectors; i++) {
             distances[i] = manhattan_distance_f64_avx512(vecs[i], vec, length);
         }
     }
@@ -228,7 +228,7 @@ float* batched_manhattan_f32_avx512(const float** vecs, const float* vec, const 
 #pragma omp parallel
     {
 #pragma omp for nowait
-        for (size_t i = 0; i < n_vectors; i++) {
+        for (register size_t i = 0; i < n_vectors; i++) {
             distances[i] = manhattan_distance_f32_avx512(vecs[i], vec, length);
         }
     }
