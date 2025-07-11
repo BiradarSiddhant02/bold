@@ -1,7 +1,7 @@
 # === Compiler and Flags ===
 CC := gcc
 COMMON_CFLAGS := -O3 -Wall -Wextra -std=c11 -Iinclude -fPIC -fopenmp -funroll-loops
-DEBUG_CFLAGS := -g -O0 -Wall -Wextra -std=c11 -Iinclude -fPIC -fopenmp
+DEBUG_CFLAGS := -g -O3 -Wall -Wextra -std=c11 -Iinclude -fPIC -fopenmp
 SO_FLAGS := -shared -fPIC -fopenmp
 LDFLAGS := -lm -Wl,--version-script=exports.map
 
