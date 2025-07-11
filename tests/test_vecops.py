@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import numpy as np
 import pytest
-from ClusterIndex.vecops import Vecop
+from bold.vecops import Vecop
 
 @pytest.fixture(scope="module")
 def vecop(request):
