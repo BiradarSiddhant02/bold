@@ -67,21 +67,21 @@ class Vecop:
         arch = arch.lower().replace("_", "-")
         # Accept avx512, avx-512, avx_512 as the same
         if arch in {"avx512", "avx-512", "avx_512"}:
-            return "avx-512"
+            return "AVX512"
         if arch in {"avx2"}:
-            return "avx2"
+            return "AVX2"
         if arch in {"avx"}:
-            return "avx"
+            return "AVX"
         if arch in {"sse"}:
-            return "sse"
+            return "SSE"
         if arch in {"scalar"}:
-            return "scalar"
-        raise ValueError(f"{arch} is invalid. Use one of: 'sse', 'avx', 'avx2', 'avx-512', 'scalar'")
+            return "SCALAR"
+        raise ValueError(f"{arch} is invalid. Use one of: 'sse', 'avx', 'avx2', 'avx512', 'scalar'")
 
     def change_architecture(self, arch: str = "sse") -> None:
         norm_arch = self._normalize_arch(arch)
         self.arch = norm_arch
-        self.set_arch(norm_arch.upper().encode())
+        self.set_arch(norm_arch.encode())
 
     def architecture(self) -> str:
         result = self.get_arch()
