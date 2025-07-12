@@ -37,10 +37,10 @@ See `bench_vecops1.txt` for full results. Here’s a taste:
 ## Usage
 
 ```python
-from bold.vecops import Vecop
+from ClusterIndex.vecops import Vecop
 import numpy as np
 
-vecop = Vecop(libpath="bold/libvecops.so", precision="float", arch="avx2")
+vecop = Vecop(libpath="ClusterIndex/libvecops.so", precision="float", arch="avx2")
 a = np.random.rand(128).astype(np.float32)
 b = np.random.rand(128).astype(np.float32)
 dist = vecop.euclidean_distance(vecop.get_pointer(a), vecop.get_pointer(b), 128)
