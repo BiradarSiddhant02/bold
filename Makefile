@@ -2,13 +2,13 @@
 CC := gcc
 COMMON_CFLAGS := -O3 -Wall -Wextra -std=c11 -Iinclude -fPIC -fopenmp -funroll-loops
 DEBUG_CFLAGS := -g -O3 -Wall -Wextra -std=c11 -Iinclude -fPIC -fopenmp
-SO_FLAGS := -shared -fPIC -fopenmp
+SO_FLAGS := -fPIC -fopenmp
 LDFLAGS := -lm -Wl,--version-script=exports.map
 
 # === Directories ===
 SRC_DIR := src
 BIN_DIR := bin
-OUT_DIR := ClusterIndex
+OUT_DIR := bold
 
 # === Output Shared Library ===
 SHARED_LIB := $(OUT_DIR)/libvecops.so
@@ -60,21 +60,13 @@ $(BIN_DIR)/dispatcher.o: $(SRC_DIR)/dispatcher.c
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(COMMON_CFLAGS) -c $< -o $@
 
-# === Output Static Library ===
-STATIC_LIB := $(BIN_DIR)/libvecops.a
-
 # === Default Target (build both) ===
-all: $(SHARED_LIB) $(STATIC_LIB)
+all: $(SHARED_LIB)
 
 # === Shared Object (.so)
 $(SHARED_LIB): $(OBJS)
-	$(CC) $(SO_FLAGS) -o $@ $^ $(LDFLAGS)
-
-# === Static Archive (.a)
-$(STATIC_LIB): CFLAGS := $(DEBUG_CFLAGS)
-$(STATIC_LIB): $(OBJS)
-	ar rcs $@ $^
+	$(CC) -shared $(SO_FLAGS) -o $@ $^ $(LDFLAGS)
 
 # === Clean ===
 clean:
-	rm -f $(BIN_DIR)/*.o $(SHARED_LIB)
+	rm -rf $(BIN_DIR) $(SHARED_LIB)

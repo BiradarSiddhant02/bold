@@ -17,7 +17,7 @@ COPY src/ ./src/
 
 # Build the shared library and strip it
 RUN make all && \
-    strip ClusterIndex/libvecops.so
+    strip bold/libvecops.so
 
 # === Stage 2: Minimal runtime image ===
 FROM python:3.12-slim
@@ -32,13 +32,13 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy only necessary files from builder
-COPY --from=builder /build/ClusterIndex/libvecops.so ./ClusterIndex/
-COPY ClusterIndex/vecops.py ./ClusterIndex/
+COPY --from=builder /build/bold/libvecops.so ./bold/
+COPY bold/vecops.py ./bold/
 COPY tests/ ./tests/
 COPY run_all.bash .
 
 # Set permissions in one layer
-RUN mkdir -p ClusterIndex && \
+RUN mkdir -p bold && \
     chmod +x run_all.bash
 
 # Run all tests and benchmarks

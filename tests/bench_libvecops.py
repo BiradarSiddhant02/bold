@@ -5,7 +5,7 @@ import time
 import argparse
 
 # Path to the shared library
-LIBPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "ClusterIndex", "libvecops.so"))
+LIBPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "bold", "libvecops.so"))
 
 # Load the library
 lib = ctypes.CDLL(LIBPATH)

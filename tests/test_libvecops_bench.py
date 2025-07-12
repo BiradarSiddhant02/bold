@@ -11,7 +11,7 @@ def pytest_addoption(parser):
 def num_threads(request):
     return request.config.getoption("--num-threads")
 
-LIBPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "ClusterIndex", "libvecops.so"))
+LIBPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "bold", "libvecops.so"))
 
 @pytest.fixture(scope="module")
 def lib():

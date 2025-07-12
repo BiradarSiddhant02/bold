@@ -1,6 +1,6 @@
 import os
 import sys
-# Add project root to sys.path for ClusterIndex import
+# Add project root to sys.path for bold import
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import numpy as np
 import pytest
@@ -11,7 +11,7 @@ def vecop(request):
     # Get architecture from command line option
     arch = request.config.getoption("--arch")
     # Use double precision for more robust tests
-    libpath = os.path.join(os.path.dirname(__file__), "..", "ClusterIndex", "libvecops.so")
+    libpath = os.path.join(os.path.dirname(__file__), "..", "bold", "libvecops.so")
     libpath = os.path.abspath(libpath)
     v = Vecop(libpath=libpath, precision="double", arch=arch)
     return v
